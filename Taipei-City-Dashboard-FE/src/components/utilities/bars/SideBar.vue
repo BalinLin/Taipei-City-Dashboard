@@ -23,6 +23,12 @@ const collapsedStates = ref({
 	personal: false,
 });
 
+// Track dragging state to highlight drop targets
+const draggedItem = ref(null);
+
+// Track which container is being dragged over
+const dragOverContainer = ref(null);
+
 function initializeCollapsedStates() {
 	contentStore.cityManager.activeCities.forEach((city) => {
 		if (!(city in collapsedStates.value)) {
@@ -51,6 +57,43 @@ function toggleCollapse(cities) {
 	cities.forEach((city) => {
 		collapsedStates.value[city] = !allCollapsed;
 	});
+}
+
+function handleDragStart(data) {
+	draggedItem.value = data;
+}
+
+function handleDragOver(event) {
+	if (event && event.city) {
+		dragOverContainer.value = event.city || 'personal';
+	}
+}
+
+function handleDragEnd() {
+	draggedItem.value = null;
+	dragOverContainer.value = null;
+}
+
+function handleDrop(data) {
+	// Don't do anything if trying to drop on itself
+	if (data.sourceIndex === data.targetIndex && data.sourceCity === data.targetCity) {
+		return;
+	}
+
+	if (data.sourceCity && data.sourceCity === data.targetCity) {
+		// Reordering within the same city/section
+		contentStore.reorderDashboard(data.sourceCity, data.sourceIndex, data.targetIndex);
+	} else if (!data.sourceCity && !data.targetCity) {
+		// Reordering within personal dashboards (no city)
+		contentStore.reorderPersonalDashboard(data.sourceIndex, data.targetIndex);
+	} else {
+		// We don't allow moving between different city types/personal to public
+		// No action needed here
+		console.log('Cannot move dashboards between different sections');
+	}
+
+	// Reset drag state
+	dragOverContainer.value = null;
 }
 
 watch(
@@ -139,6 +182,8 @@ onMounted(() => {
             !collapsedStates.personal &&
               contentStore.personalDashboards?.length > 0
           "
+          class="sidebar-draggable-container"
+          :class="{ 'drag-over': dragOverContainer === 'personal' }"
         >
           <SideBarTab
             v-for="item in contentStore.personalDashboards.filter(
@@ -149,6 +194,11 @@ onMounted(() => {
             :title="item.name"
             :index="item.index"
             :expanded="isExpanded"
+            :draggable="!!authStore.token"
+            @dragstart="handleDragStart"
+            @dragover="handleDragOver"
+            @dragend="handleDragEnd"
+            @drop="handleDrop"
           />
         </div>
       </transition>
@@ -169,6 +219,8 @@ onMounted(() => {
             !collapsedStates[city] &&
               contentStore.getDashboardsByCity(city)?.length > 0
           "
+          class="sidebar-draggable-container"
+          :class="{ 'drag-over': dragOverContainer === city }"
         >
           <SideBarTab
             v-for="item in contentStore.getDashboardsByCity(city)"
@@ -178,6 +230,11 @@ onMounted(() => {
             :index="item.index"
             :city="city"
             :expanded="isExpanded"
+            :draggable="!!authStore.token"
+            @dragstart="handleDragStart"
+            @dragover="handleDragOver"
+            @dragend="handleDragEnd"
+            @drop="handleDrop"
           />
         </div>
       </transition>
@@ -217,6 +274,18 @@ onMounted(() => {
 		text-wrap: nowrap;
 		cursor: pointer;
 		margin-left: 1em;
+	}
+
+	&-draggable-container {
+		padding-top: 5px;
+		padding-bottom: 5px;
+		transition: all 0.2s ease;
+		border-radius: 4px;
+
+		&.drag-over {
+			background-color: rgba(var(--color-highlight-rgb, 79, 153, 214), 0.1);
+			box-shadow: inset 0 0 0 2px var(--color-highlight, #4f99d6);
+		}
 	}
 
 	&-sub {
