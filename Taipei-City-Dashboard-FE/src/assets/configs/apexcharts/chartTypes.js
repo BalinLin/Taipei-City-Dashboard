@@ -19,6 +19,7 @@ export const chartTypes = {
 	IndicatorChart: "指標圖",
 	MapLegend: "地圖圖例",
 	TextUnitChart: "文字單位圖",
+	CalendarHeatmapChart: "熱曆圖",
 };
 
 export const chartsPerDataType = {
@@ -42,7 +43,12 @@ export const chartsPerDataType = {
 		"PolarAreaChart",
 		"TextUnitChart",
 	],
-	time: ["TimelineSeparateChart", "TimelineStackedChart", "ColumnLineChart"],
+	time: [
+		"TimelineSeparateChart",
+		"TimelineStackedChart",
+		"ColumnLineChart",
+		"CalendarHeatmapChart",
+	],
 	percent: [
 		"GuageChart",
 		"BarPercentChart",
