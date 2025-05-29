@@ -1,10 +1,10 @@
 <!-- Developed By Taipei Urban Intelligence Center 2023-2024 -->
-<!-- 
+<!--
 Lead Developer:  Igor Ho (Full Stack Engineer)
 Data Pipelines:  Iima Yu (Data Scientist)
 Design and UX: Roy Lin (Fmr. Consultant), Chu Chen (Researcher)
 Systems: Ann Shih (Systems Engineer)
-Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern) 
+Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)
 -->
 <!-- Department of Information Technology, Taipei City Government -->
 

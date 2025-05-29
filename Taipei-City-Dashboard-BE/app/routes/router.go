@@ -33,7 +33,7 @@ func ConfigureRoutes() {
 	configureAuthRoutes()
 	configureUserRoutes()
 	configureComponentRoutes()
-	configureDashboardRoutes()
+	configureDashboardRoutes() // Dashboard routes now include order functionality
 	configureIssueRoutes()
 	configureIncidentRoutes()
 	// configureWsRoutes()
@@ -100,17 +100,15 @@ func configureDashboardRoutes() {
 	dashboardRoutes.Use(middleware.LimitAPIRequests(global.DashboardLimitAPIRequestsTimes, global.LimitRequestsDuration))
 	dashboardRoutes.Use(middleware.LimitTotalRequests(global.DashboardLimitTotalRequestsTimes, global.LimitRequestsDuration))
 	{
-		dashboardRoutes.
-			GET("/", controllers.GetAllDashboards)
-		dashboardRoutes.
-			GET("/:index", controllers.GetDashboardByIndex)
+		dashboardRoutes.GET("/", controllers.GetAllDashboards)
+		dashboardRoutes.GET("/:index", controllers.GetDashboardByIndex)
 	}
 	dashboardRoutes.Use(middleware.IsLoggedIn())
 	{
 		dashboardRoutes.POST("/", controllers.CreatePersonalDashboard)
-		dashboardRoutes.
-			PATCH("/:index", controllers.UpdateDashboard).
-			DELETE("/:index", controllers.DeleteDashboard)
+		dashboardRoutes.PATCH("/:index", controllers.UpdateDashboard)
+		dashboardRoutes.DELETE("/:index", controllers.DeleteDashboard)
+		dashboardRoutes.PUT("/order", controllers.UpdateDashboardOrder)
 	}
 	dashboardRoutes.Use(middleware.IsSysAdm())
 	{
@@ -175,5 +173,6 @@ func configureContributorRoutes() {
 // 	{
 // 		wsRoutes.GET("/", controllers.ServeWs)
 // 		wsRoutes.PUT("/write/", controllers.WriteMap)
+// 		wsRoutes.
 // 	}
 // }

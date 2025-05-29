@@ -3,11 +3,12 @@
 <!-- This component has two modes "expanded" and "collapsed" which is controlled by the prop "expanded" -->
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "../../../store/authStore";
 
 const route = useRoute();
+const isDragOver = ref(false);
 
 const props = defineProps({
 	icon: { type: String },
@@ -15,7 +16,10 @@ const props = defineProps({
 	index: { type: String },
 	city: { type: String },
 	expanded: { type: Boolean },
+	draggable: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['dragstart', 'dragover', 'drop', 'dragend']);
 
 const authStore = useAuthStore();
 
@@ -38,12 +42,67 @@ const linkActiveOrNot = computed(() => {
 
 	return isPathMatch && isCityMatch;
 });
+
+const handleDragStart = (e) => {
+	if (!props.draggable) return;
+	e.dataTransfer.dropEffect = 'move';
+	e.dataTransfer.effectAllowed = 'move';
+	e.dataTransfer.setData('text/plain', JSON.stringify({
+		index: props.index,
+		city: props.city
+	}));
+	e.currentTarget.classList.add('dragging');
+	emit('dragstart', { index: props.index, city: props.city });
+};
+
+const handleDragOver = (e) => {
+	if (!props.draggable) return;
+	e.preventDefault();
+	isDragOver.value = true;
+	emit('dragover', { index: props.index, city: props.city, event: e });
+};
+
+const handleDragLeave = () => {
+	if (!props.draggable) return;
+	isDragOver.value = false;
+};
+
+const handleDrop = (e) => {
+	if (!props.draggable) return;
+	e.preventDefault();
+	isDragOver.value = false;
+	const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+	emit('drop', {
+		sourceIndex: data.index,
+		sourceCity: data.city,
+		targetIndex: props.index,
+		targetCity: props.city
+	});
+};
+
+const handleDragEnd = (e) => {
+	if (!props.draggable) return;
+	e.currentTarget.classList.remove('dragging');
+	isDragOver.value = false;
+	emit('dragend');
+};
 </script>
 
 <template>
   <router-link
     :to="tabLink"
-    :class="{ sidebartab: true, 'sidebartab-active': linkActiveOrNot }"
+    :class="{
+      sidebartab: true,
+      'sidebartab-active': linkActiveOrNot,
+      'sidebartab-draggable': draggable,
+      'sidebartab-dragover': isDragOver
+    }"
+    :draggable="draggable"
+    @dragstart="handleDragStart"
+    @dragover="handleDragOver"
+    @dragleave="handleDragLeave"
+    @drop="handleDrop"
+    @dragend="handleDragEnd"
   >
     <span :title="!expanded ? title : ''">{{ icon }}</span>
     <h3 v-if="expanded">
@@ -89,6 +148,22 @@ const linkActiveOrNot = computed(() => {
 		h3 {
 			color: var(--color-highlight);
 		}
+	}
+
+	&-draggable {
+		cursor: grab;
+
+		&.dragging {
+			opacity: 0.5;
+			cursor: grabbing;
+		}
+	}
+
+	&-dragover {
+		background-color: var(--color-highlight-light, #4f99d633);
+		border: 1px dashed var(--color-highlight, #4f99d6);
+		transform: scale(1.02);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
 }
 </style>

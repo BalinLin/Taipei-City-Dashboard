@@ -114,12 +114,12 @@ export const useContentStore = defineStore("content", {
 			const data = response.data.data || {};
 
 			this.dashboards.clear();
-			
+
 			Object.entries(data).forEach(([key, dashboardArray]) => {
 				// deal with personal dashboard
 				if (key === 'personal') {
 					this.personalDashboards = Array.isArray(dashboardArray) ? dashboardArray : [];
-					
+
 					if (this.personalDashboards.length !== 0) {
 						this.favorites = this.personalDashboards.find(
 							(el) => el.icon === "favorite"
@@ -132,7 +132,8 @@ export const useContentStore = defineStore("content", {
 					// deal with other city dashboard
 					if (Array.isArray(dashboardArray)) {
 						// move map-layers to the end
-						this.dashboards.set(key, this.moveMapLayersToEnd(dashboardArray));
+						// this.dashboards.set(key, this.moveMapLayersToEnd(dashboardArray));
+						this.dashboards.set(key, dashboardArray);
 					} else {
 						this.dashboards.set(key, []);
 					}
@@ -154,11 +155,11 @@ export const useContentStore = defineStore("content", {
 						break;
 					}
 				}
-			
+
 				if (firstCity && firstDashboard) {
 					this.currentDashboard.index = firstDashboard.index;
 					this.currentDashboard.city = firstCity;
-					
+
 					router.replace({
 						query: {
 							index: this.currentDashboard.index,
@@ -167,26 +168,26 @@ export const useContentStore = defineStore("content", {
 					});
 				}
 			}
-			
+
 			// After getting dashboard info, call the setCurrentDashboardAllContent (3.) method to get component info
 			this.setCurrentDashboardAllContent();
 		},
 		// 2-2. Move map-layers to the end of the array
 		moveMapLayersToEnd(dashboards) {
 			if (!Array.isArray(dashboards)) return [];
-			
+
 			// Find the map-layers item
-			const mapLayersItem = dashboards.find(item => 
+			const mapLayersItem = dashboards.find(item =>
 				item.index === 'map-layers' || item.index.includes('map-layers')
 			);
-			
+
 			if (mapLayersItem) {
-				const otherItems = dashboards.filter(item => 
+				const otherItems = dashboards.filter(item =>
 				item.index !== mapLayersItem.index
 				);
 				return [...otherItems, mapLayersItem];
 			}
-			
+
 			return dashboards;
 		},
 		// 2-3. Get all dashboards of a city
@@ -195,17 +196,17 @@ export const useContentStore = defineStore("content", {
 		},
 		// 3. Call an API to get all component info of the current index dashboard not filtered by city and store it
 		async setCurrentDashboardAllContent() {
-			const currentCityDashboards = this.currentDashboard.city 
+			const currentCityDashboards = this.currentDashboard.city
 				? this.getDashboardsByCity(this.currentDashboard.city)
 				: this.personalDashboards;
 			const currentDashboardInfo = currentCityDashboards.find(item => item.index === this.currentDashboard.index);
-			
+
 			// If the current dashboard is not found, redirect to the first available dashboard
 			if (!currentDashboardInfo) {
 				// Find the first available dashboard
 				let firstCity = null;
 				let firstDashboard = null;
-				
+
 				for (const [city, dashboards] of this.dashboards.entries()) {
 					if (dashboards && dashboards.length > 0) {
 						firstCity = city;
@@ -213,7 +214,7 @@ export const useContentStore = defineStore("content", {
 						break;
 					}
 				}
-				
+
 				if (firstCity && firstDashboard) {
 					router.replace({
 						query: {
@@ -224,11 +225,11 @@ export const useContentStore = defineStore("content", {
 				}
 				return;
 			}
-			
+
 			// Set the current dashboard info
 			this.currentDashboard.name = currentDashboardInfo.name;
 			this.currentDashboard.icon = currentDashboardInfo.icon;
-			
+
 			// Get the dashboard index data
 			try {
 				// 針對目前index 取得不分city的資料
@@ -238,7 +239,7 @@ export const useContentStore = defineStore("content", {
 			} catch (error) {
 				console.error("Error getting dashboard index data:", error);
 			}
-			
+
 			// Get the dashboard components data
 			this.setCurrentDashboardAllChartData();
 		},
@@ -275,7 +276,7 @@ export const useContentStore = defineStore("content", {
 
 						this.cityDashboard.components[index].chart_data =
 							response.data.data;
-						
+
 						if (response.data.categories) {
 							this.cityDashboard.components[
 								index
@@ -285,10 +286,10 @@ export const useContentStore = defineStore("content", {
 						console.error(`Failed to fetch chart data for component ${component.id}:`, error);
 						// Set empty chart data to avoid errors in subsequent operations
 						this.cityDashboard.components[index].chart_data = [];
-						
+
 						this.loading = false;
 					}
-					
+
 				}
 				for (
 					let index = 0;
@@ -316,7 +317,7 @@ export const useContentStore = defineStore("content", {
 										},
 									}
 								);
-	
+
 								if (i === "0") {
 									this.cityDashboard.components[
 										index
@@ -357,11 +358,11 @@ export const useContentStore = defineStore("content", {
 					const sortedData = [...components].sort((a, b) => {
 						// 如果id不同，保持原有順序
 						if (a.id !== b.id) return 0;
-						
+
 						// 如果id相同，將taipei排在前面，其他排在後面
 						if (a.city === 'taipei' && b.city !== 'taipei') return -1;
 						if (a.city !== 'taipei' && b.city === 'taipei') return 1;
-						
+
 						return 0;
 					});
 
@@ -476,7 +477,7 @@ export const useContentStore = defineStore("content", {
 			try {
 			  for (let index = 0; index < this.allMapLayers.length; index++) {
 				const component = this.allMapLayers[index];
-				
+
 				try {
 				  const response = await http.get(
 					`/component/${component.id}/chart`,
@@ -486,14 +487,14 @@ export const useContentStore = defineStore("content", {
 						}
 					}
 				  );
-				  
+
 				  this.allMapLayers[index].chart_data = response.data.data;
 				} catch (error) {
 				  console.error(`Failed to fetch data for component ${component.id}:`, error);
 				  // Continue processing the next layer when an error occurs
 				}
 			  }
-			  
+
 			  // Filter layers by the specified city
 			  this.filterMapLayersByCity(city);
 			} catch (error) {
@@ -523,12 +524,12 @@ export const useContentStore = defineStore("content", {
 
 			const uniqueData = [...new Map(response.data.data
 				// Sort the data to ensure that items with city 'metrotaipei' are at the end
-				.sort((a) => a.city === 'metrotaipei' ? 1 : -1)
+					.sort((a) => a.city === 'metrotaipei' ? 1 : -1)
 				// Create a map with item.id as the key to remove duplicates
 				.map(item => [item.id, item]))
 				// Convert the map values back to an array
 				.values()
-			]; 
+			];
 
 			this.components = uniqueData;
 			this.loading = false;
@@ -557,7 +558,7 @@ export const useContentStore = defineStore("content", {
 			}
 
 			dialogStore.moreInfoContent = response_1.data.data;
-			
+
 			for (let index = 0; index < dialogStore.moreInfoContent.length; index++) {
 
 				const response_2 = await http.get(
@@ -583,7 +584,7 @@ export const useContentStore = defineStore("content", {
 					dialogStore.moreInfoContent[index].chart_config.categories =
 						response_2.data.categories;
 				}
-	
+
 				// 2-3. Get the component history data if applicable
 				if (dialogStore.moreInfoContent[index].history_config) {
 					for (let i in dialogStore.moreInfoContent[index].history_config
@@ -602,7 +603,7 @@ export const useContentStore = defineStore("content", {
 								},
 							}
 						);
-	
+
 						if (i === "0") {
 							dialogStore.moreInfoContent[index].history_data = [];
 						}
@@ -731,28 +732,91 @@ export const useContentStore = defineStore("content", {
 				this.setDashboards();
 			}
 		},
-		/*
-		wsConnect() {
-			const dialogStore = useDialogStore();
-			this.ws = new WebSocket("ws://192.168.88.193:8088/api/v1/ws");
-			this.ws.onopen = function (event) {
-				console.log("WebSocket connected");
-			};
 
-			this.ws.onmessage = function (event) {
-				var message = event.data;
-				// var messagesDiv = document.getElementById("messages");
-				// messagesDiv.innerHTML += "<p>" + message + "</p>";
-				dialogStore.showNotification("info", message, 10000);
-			};
+		reorderDashboard(city, sourceIndex, targetIndex) {
+			if (!city) return;
+
+			const dashboards = this.getDashboardsByCity(city);
+			const sourceIdx = dashboards.findIndex(d => d.index === sourceIndex);
+			const targetIdx = dashboards.findIndex(d => d.index === targetIndex);
+
+			if (sourceIdx === -1 || targetIdx === -1) return;
+
+			// Move the item in the array
+			const [movedItem] = dashboards.splice(sourceIdx, 1);
+			dashboards.splice(targetIdx, 0, movedItem);
+
+			// Save the changes to backend
+			this.saveDashboardOrder(city);
 		},
-		wsDisconnect() {
-			this.ws.close();
+
+		reorderPersonalDashboard(sourceIndex, targetIndex) {
+			const personalDashboards = this.personalDashboards;
+
+			const sourceIdx = personalDashboards.findIndex(d => d.index === sourceIndex);
+			const targetIdx = personalDashboards.findIndex(d => d.index === targetIndex);
+
+			if (sourceIdx === -1 || targetIdx === -1) return;
+
+			// Move the item in the array
+			const [movedItem] = this.personalDashboards.splice(sourceIdx, 1);
+			this.personalDashboards.splice(targetIdx, 0, movedItem);
+
+			// Save the changes to backend
+			this.savePersonalDashboardOrder();
 		},
-		sendMessage(message) {
-			this.ws.send(message.inctype + ": 位於 " + message.place);
+
+		/**
+		 * Saves the dashboard order for a specific city to the backend
+		 * @param {string} city - The city to save the dashboard order for
+		 */
+		async saveDashboardOrder(city) {
+			try {
+				// Get the dashboard indexes in the current order
+				const dashboardIndexes = this.getDashboardsByCity(city).map(d => d.index);
+
+				// Send the order to the backend
+				await http.put('/dashboard/order', {
+					city,
+					dashboard_indexes: dashboardIndexes
+				});
+
+				console.log(`Successfully saved dashboard order for ${city}`);
+			} catch (error) {
+				console.error(`Failed to save dashboard order for ${city}:`, error);
+				// Optionally show a notification to the user
+				const dialogStore = useDialogStore();
+				dialogStore.showNotification("error", `儀表板順序儲存失敗`);
+			}
+			this.loading = false;
 		},
-		*/
+
+		/**
+		 * Saves personal dashboard order to the backend
+		 */
+		async savePersonalDashboardOrder() {
+			try {
+				// Get the personal dashboard indexes in the current order
+				// Filter out the favorites dashboard as it should always stay at the top
+				const dashboardIndexes = this.personalDashboards
+					.filter(d => d.icon !== "favorite")
+					.map(d => d.index);
+
+				// Send the order to the backend with empty string for city
+				await http.put('/dashboard/order', {
+					city: "",
+					dashboard_indexes: dashboardIndexes
+				});
+
+				console.log('Successfully saved personal dashboard order');
+			} catch (error) {
+				console.error('Failed to save personal dashboard order:', error);
+				// Optionally show a notification to the user
+				const dialogStore = useDialogStore();
+				dialogStore.showNotification("error", `個人儀表板順序儲存失敗`);
+			}
+			this.loading = false;
+		},
 	},
 	debounce: {
 		favoriteComponent: 500,

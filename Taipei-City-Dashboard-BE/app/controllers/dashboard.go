@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 	"strings"
@@ -33,7 +34,7 @@ func GetAllDashboards(c *gin.Context) {
 	// 		personalGroups = append(personalGroups, groupID)
 	// 	}
 	// }
-	
+
 	dashboards, err := models.GetAllDashboards(accountID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "error", "message": err.Error()})
@@ -245,7 +246,7 @@ User: Only personal dashboards
 Admin: Public and personal dashboards
 */
 func DeleteDashboard(c *gin.Context) {
-	_, _, _, _, permissions := util.GetUserInfoFromContext(c)
+	_, accountID, _, _, permissions := util.GetUserInfoFromContext(c)
 	adminGroups := util.GetPermissionGroupIDs(permissions, 1)  // role=admin
 	editorGroups := util.GetPermissionGroupIDs(permissions, 2) // role=editor
 	groups := util.MergeAndRemoveDuplicates(adminGroups, editorGroups)
@@ -253,7 +254,63 @@ func DeleteDashboard(c *gin.Context) {
 	dashboardIndex := c.Param("index")
 
 	// Delete the dashboard
-	err := models.DeleteDashboard(dashboardIndex, groups)
+	err := models.DeleteDashboard(accountID, dashboardIndex, groups)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "error", "message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "success"})
+}
+
+// UpdateDashboardOrder updates the order of dashboards for a user
+// PUT /api/v1/dashboard/order
+func UpdateDashboardOrder(c *gin.Context) {
+	// Get the user info from the context
+	_, accountID, _, _, _ := util.GetUserInfoFromContext(c)
+
+	if accountID <= 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "error", "message": "User must be logged in"})
+		return
+	}
+
+	// Define request structure
+	type OrderRequest struct {
+		City            *string  `json:"city"`
+		DashboardIndexes []string `json:"dashboard_indexes"`
+	}
+
+	var req OrderRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "error", "message": err.Error()})
+		return
+	}
+
+	// Validate city if provided
+	if req.City != nil {
+		cityVal := *req.City
+		if cityVal != "taipei" && cityVal != "metrotaipei" && cityVal != "" {
+			c.JSON(http.StatusBadRequest, gin.H{"status": "error", "message": "Invalid city name"})
+			return
+		}
+	}
+
+	// Convert dashboard indexes to JSON
+	dashboardIndexesJSON, err := json.Marshal(req.DashboardIndexes)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "error", "message": "Failed to process dashboard indexes"})
+		return
+	}
+
+	query := `
+		INSERT INTO dashboard_order (user_id, city, dashboard_indexes)
+		VALUES ($1, $2, $3)
+		ON CONFLICT ON CONSTRAINT unique_user_city DO UPDATE SET
+			dashboard_indexes = EXCLUDED.dashboard_indexes,
+			_mtime = CURRENT_TIMESTAMP
+	`
+
+	err = models.DBManager.Exec(query, accountID, req.City, dashboardIndexesJSON).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "error", "message": err.Error()})
 		return

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"database/sql"
 
 	"TaipeiCityDashboardBE/logs"
 
@@ -32,16 +33,21 @@ type DashboardGroup struct {
 
 /* ----- Handlers ----- */
 
-// type allDashboards struct {
-// 	Public   []Dashboard `json:"public"`
-// 	Personal []Dashboard `json:"personal"`
-// }
-
 type allDashboards struct {
-	Public   []Dashboard `json:"public"`
-	Taipei   []Dashboard `json:"taipei"`
-	MetroTaipei   []Dashboard `json:"metrotaipei"`
-	Personal []Dashboard `json:"personal"`
+	Public      []Dashboard `json:"public"`
+	Taipei      []Dashboard `json:"taipei"`
+	MetroTaipei []Dashboard `json:"metrotaipei"`
+	Personal    []Dashboard `json:"personal"`
+}
+
+// Dashboard order models (kept within the same file)
+type DashboardOrder struct {
+	ID               int       `json:"id"`
+	UserID           int       `json:"user_id"`
+	City             *string   `json:"city"`
+	DashboardIndexes []string  `json:"dashboard_indexes"`
+	UpdatedAt        time.Time `json:"_mtime"`
+	CreatedAt        time.Time `json:"_ctime"`
 }
 
 func GetAllDashboards(accountID int) (dashboards allDashboards, err error) {
@@ -78,17 +84,8 @@ func GetAllDashboards(accountID int) (dashboards allDashboards, err error) {
 		return dashboards, err
 	}
 
-	
 	// Get all the Personal dashboards
-	// err = DBManager.
-	// 	Joins("JOIN dashboard_groups ON dashboards.id = dashboard_groups.dashboard_id AND dashboard_groups.group_id IN (?)", personalGroups).
-	// 	Order("dashboards.id").
-	// 	Find(&dashboards.Personal).
-	// 	Error
-
-
-	// Get all the Personal dashboards
-	if accountID > 0{
+	if accountID > 0 {
 		subQuery := DBManager.Table("groups").
 		Select("id").
 		Joins("JOIN auth_user_group_roles as ag ON groups.id = ag.group_id").
@@ -100,12 +97,155 @@ func GetAllDashboards(accountID int) (dashboards allDashboards, err error) {
 			Find(&dashboards.Personal).
 			Error
 	} else {
-		dashboards.Personal =[]Dashboard{}
+		dashboards.Personal = []Dashboard{}
 	}
-	
+
+	// Apply custom ordering if available
+	if accountID > 0 {
+		// Apply order to Taipei dashboards
+		taipeiCity := "taipei"
+		taipeiOrder, _ := GetDashboardOrderByCity(accountID, &taipeiCity)
+		if taipeiOrder != nil && len(taipeiOrder.DashboardIndexes) > 0 {
+			dashboards.Taipei = applyDashboardOrder(dashboards.Taipei, taipeiOrder.DashboardIndexes)
+		}
+
+		// Apply order to MetroTaipei dashboards
+		metroCity := "metrotaipei"
+		metroOrder, _ := GetDashboardOrderByCity(accountID, &metroCity)
+		if metroOrder != nil && len(metroOrder.DashboardIndexes) > 0 {
+			dashboards.MetroTaipei = applyDashboardOrder(dashboards.MetroTaipei, metroOrder.DashboardIndexes)
+		}
+
+		// Apply order to Personal dashboards
+		personalOrder, _ := GetDashboardOrderByCity(accountID, nil)
+
+		if personalOrder != nil && len(personalOrder.DashboardIndexes) > 0 {
+			// For personal dashboards, keep the favorite dashboard at the top
+			favorite := findFavoriteDashboard(dashboards.Personal)
+			nonFavorites := filterOutFavoriteDashboard(dashboards.Personal)
+
+			// Apply order to non-favorites
+			orderedNonFavorites := applyDashboardOrder(nonFavorites, personalOrder.DashboardIndexes)
+
+			// Combine back with favorite at the top
+			if favorite != nil {
+				dashboards.Personal = append([]Dashboard{*favorite}, orderedNonFavorites...)
+			} else {
+				dashboards.Personal = orderedNonFavorites
+			}
+		}
+	}
 	return dashboards, err
 }
 
+// Helper functions for dashboard ordering
+
+// findFavoriteDashboard finds and returns the favorite dashboard
+func findFavoriteDashboard(dashboards []Dashboard) *Dashboard {
+	for i, d := range dashboards {
+		if d.Icon == "favorite" {
+			return &dashboards[i]
+		}
+	}
+	return nil
+}
+
+// filterOutFavoriteDashboard returns all dashboards except the favorite one
+func filterOutFavoriteDashboard(dashboards []Dashboard) []Dashboard {
+	var result []Dashboard
+	for _, d := range dashboards {
+		if d.Icon != "favorite" {
+			result = append(result, d)
+		}
+	}
+	return result
+}
+
+// GetDashboardOrderByCity retrieves the dashboard order for a specific user and city
+func GetDashboardOrderByCity(userID int, city *string) (*DashboardOrder, error) {
+	var order DashboardOrder
+	var dashboardIndexesJSON []byte
+	var query string
+	var args []interface{}
+
+	// Fix the nil pointer dereference by checking if city is nil before logging
+	if city != nil {
+		logs.FDebug("Executing query for dashboard order by city: %s, userID: %d", *city, userID)
+	} else {
+		logs.FDebug("Executing query for personal dashboard order, userID: %d", userID)
+	}
+
+	if city != nil {
+		query = `
+			SELECT id, user_id, city, dashboard_indexes, _ctime, _mtime
+			FROM dashboard_order
+			WHERE user_id = $1 AND city = $2
+		`
+		args = []interface{}{userID, *city}
+	} else {
+		query = `
+			SELECT id, user_id, city, dashboard_indexes, _ctime, _mtime
+			FROM dashboard_order
+			WHERE user_id = $1 AND city = ''
+		`
+		args = []interface{}{userID}
+	}
+
+	err := DBManager.Raw(query, args...).Row().Scan(
+		&order.ID,
+		&order.UserID,
+		&order.City,
+		&dashboardIndexesJSON,
+		&order.CreatedAt,
+		&order.UpdatedAt,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil // No order exists, return nil without error
+		}
+		return nil, err
+	}
+
+	// Parse dashboard indexes from JSON
+	err = json.Unmarshal(dashboardIndexesJSON, &order.DashboardIndexes)
+	if err != nil {
+		return nil, err
+	}
+
+	return &order, nil
+}
+
+// applyDashboardOrder reorders dashboards based on the saved order
+func applyDashboardOrder(dashboards []Dashboard, orderIndexes []string) []Dashboard {
+	if len(dashboards) == 0 || len(orderIndexes) == 0 {
+		return dashboards
+	}
+
+	// Create a map for quick lookup
+	dashboardMap := make(map[string]Dashboard)
+	for _, dashboard := range dashboards {
+		dashboardMap[dashboard.Index] = dashboard
+	}
+
+	// Create an ordered result based on the orderIndexes
+	var result []Dashboard
+
+	// First add items in the specified order
+	for _, index := range orderIndexes {
+		if dashboard, exists := dashboardMap[index]; exists {
+			result = append(result, dashboard)
+			delete(dashboardMap, index) // Remove to avoid duplicates
+		}
+	}
+
+	// Then add any remaining items
+	for _, dashboard := range dashboardMap {
+		result = append(result, dashboard)
+	}
+
+	return result
+}
 
 func GetAllPublicGroupsID() (ids []int, err error) {
 	// Assume is_personal = false means public group
@@ -170,9 +310,9 @@ func GetDashboardByIndex(index string, groups []int, city string) (components []
 	query := tempDB.
 		Where(componentIdsSlice).
 		Order(fmt.Sprintf("ARRAY_POSITION(ARRAY[%s], components.id)", componentIdsString))
-		if (city != ""){
-			query = query.Where("query_charts.city = ?", city)
-		}
+	if (city != "") {
+		query = query.Where("query_charts.city = ?", city)
+	}
 	err = query.Find(&components).Error
 
 	// Add ComponentMap City field for front-end display purpose
@@ -189,17 +329,16 @@ func GetDashboardByIndex(index string, groups []int, city string) (components []
 		Property *json.RawMessage `json:"property" gorm:"column:property;type:json"`
 	}
 
-
-	for k,v := range components{
+	for k, v := range components {
 		var maps []ComponentMap
 		filteredMaps := make([]ComponentMap, 0)
 		if err := json.Unmarshal(v.MapConfig, &maps); err != nil {
 			return components, err
 		}
 
-		for kk,vv := range maps{
+		for kk, vv := range maps {
 			maps[kk].City = v.City
-			if vv.ID != 0{
+			if vv.ID != 0 {
 				filteredMaps = append(filteredMaps, maps[kk])
 			}
 		}
@@ -294,7 +433,7 @@ func UpdateDashboard(index string, name, icon string, components pq.Int64Array, 
 	return dashboard, nil
 }
 
-func DeleteDashboard(index string, groups []int) (err error) {
+func DeleteDashboard(userID int, index string, groups []int) (err error) {
 	tx := DBManager.Begin()
 
 	var dashboard Dashboard
@@ -317,6 +456,15 @@ func DeleteDashboard(index string, groups []int) (err error) {
 		return err
 	}
 
+	// Remove the dashboard from all possible dashboard orders
+	if userID > 0 {
+		cities := []string{"", "taipei", "metrotaipei"}
+		for _, city := range cities {
+			cityPtr := &city
+			RemoveDashboardFromOrders(userID, index, cityPtr)
+		}
+	}
+
 	// Delete the dashboard group
 	if err := DBManager.Table("dashboard_groups").Where("dashboard_id = ?", dashboard.ID).Delete(&dashboardGroup).Error; err != nil {
 		tx.Rollback()
@@ -330,4 +478,85 @@ func DeleteDashboard(index string, groups []int) (err error) {
 
 	tx.Commit()
 	return nil
+}
+
+// RemoveDashboardFromOrders removes a dashboard from any order records
+func RemoveDashboardFromOrders(userID int, index string, city *string) error {
+	// Find the order record for this city/user combination
+	var order DashboardOrder
+	var dashboardIndexesJSON []byte
+	var query string
+	var args []interface{}
+
+	// Fix the nil pointer dereference by checking if city is nil before logging
+	if city != nil {
+		logs.FDebug("Executing query for dashboard order by city: %s, userID: %d", *city, userID)
+	} else {
+		logs.FDebug("Executing query for personal dashboard order, userID: %d", userID)
+	}
+
+	if city != nil {
+		query = `
+			SELECT id, user_id, city, dashboard_indexes, _ctime, _mtime
+			FROM dashboard_order
+			WHERE user_id = $1 AND city = $2
+		`
+		args = []interface{}{userID, *city}
+	} else {
+		query = `
+			SELECT id, user_id, city, dashboard_indexes, _ctime, _mtime
+			FROM dashboard_order
+			WHERE user_id = $1 AND city = ''
+		`
+		args = []interface{}{userID}
+	}
+
+	err := DBManager.Raw(query, args...).Row().Scan(
+		&order.ID,
+		&order.UserID,
+		&order.City,
+		&dashboardIndexesJSON,
+		&order.CreatedAt,
+		&order.UpdatedAt,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil // No order exists, nothing to update
+		}
+		return err
+	}
+
+	// Parse dashboard indexes from JSON
+	var dashboardIndexes []string
+	if err := json.Unmarshal(dashboardIndexesJSON, &dashboardIndexes); err != nil {
+		return err
+	}
+
+	// Filter out the deleted index
+	var newDashboardIndexes []string
+	for _, idx := range dashboardIndexes {
+		if idx != index {
+			newDashboardIndexes = append(newDashboardIndexes, idx)
+		}
+	}
+
+	// If no changes, return early
+	if len(newDashboardIndexes) == len(dashboardIndexes) {
+		return nil
+	}
+
+	// Update the order
+	newJSON, err := json.Marshal(newDashboardIndexes)
+	if err != nil {
+		return err
+	}
+
+	updateQuery := `
+		UPDATE dashboard_order
+		SET dashboard_indexes = $1,
+			_mtime = CURRENT_TIMESTAMP
+		WHERE id = $2
+	`
+	return DBManager.Exec(updateQuery, newJSON, order.ID).Error
 }
