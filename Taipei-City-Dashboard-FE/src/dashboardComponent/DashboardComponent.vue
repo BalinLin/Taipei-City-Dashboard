@@ -29,6 +29,7 @@ import IconPercentChart from "./components/IconPercentChart.vue";
 import IndicatorChart from "./components/IndicatorChart.vue";
 import TextUnitChart from "./components/TextUnitChart.vue";
 import CalendarHeatmapChart from "./components/CalendarHeatmapChart.vue";
+import RankingSlopeChart from "./components/RankingSlopeChart.vue";
 
 import MapLegendSvg from "./assets/chart/MapLegend.svg";
 import DistrictChartSvg from "./assets/chart/DistrictChart.svg";
@@ -50,6 +51,7 @@ import TreemapChartSvg from "./assets/chart/TreemapChart.svg";
 import IndicatorChartSvg from "./assets/chart/IndicatorChart.svg";
 import TextUnitChartSvg from "./assets/chart/TextUnitChart.svg";
 import CalendarHeatmapChartSvg from "./assets/chart/CalendarHeatmapChart.svg";
+import RankingSlopeChartSvg from "./assets/chart/RankingSlopeChart.svg";
 
 
 const props = defineProps({
@@ -224,6 +226,8 @@ function returnChartComponent(name, svg) {
 		return svg ? TextUnitChartSvg : TextUnitChart;
 	case "CalendarHeatmapChart":
 		return svg ? CalendarHeatmapChartSvg : CalendarHeatmapChart;
+	case "RankingSlopeChart":
+		return svg ? RankingSlopeChartSvg : RankingSlopeChart;
 	default:
 		return svg ? MapLegendSvg : MapLegend;
 	}
@@ -719,13 +723,13 @@ button:hover {
 				text-align: center;
 				transition: color 0.2s, opacity 0.2s;
 				user-select: none;
-	
+
 				&:hover {
 					opacity: 1;
 					color: white;
 				}
 			}
-	
+
 			&-active {
 				background-color: var(--color-complement-text);
 				color: white;
@@ -956,7 +960,7 @@ button:hover {
 			margin: 4px 0;
 			display: flex;
 			gap: 5px;
-	
+
 			div:first-child {
 				margin-left: 5px;
 			}
