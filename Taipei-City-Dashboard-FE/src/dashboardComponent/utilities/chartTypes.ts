@@ -24,4 +24,5 @@ export const chartTypes: chartType = {
 	MapLegend: "地圖圖例", // V
 	TextUnitChart: "文字數值圖", // V
 	CalendarHeatmapChart: "熱曆圖", // V
+	BoxPlotChart: "箱型圖", // V
 };
