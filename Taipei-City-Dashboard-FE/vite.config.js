@@ -17,7 +17,8 @@ const serverConfig = isDockerCompose
           changeOrigin: true,
           rewrite: (path) => path.replace("/dev", "/v1")
         }
-      }
+      },
+	  watch: {usePolling: true}
     }
   : {
       headers: { 'X-Robots-Tag': 'noindex, nofollow' },
