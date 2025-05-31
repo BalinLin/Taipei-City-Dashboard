@@ -1,0 +1,125 @@
+CREATE TABLE "locker_info_metro_taipei"
+(
+    "地點名稱"   TEXT,
+    "縣市"       TEXT,
+    "行政區"     TEXT,
+    "置物櫃位置" TEXT,
+    "置物櫃空位" INTEGER,
+    "置物櫃數量" INTEGER
+);
+
+ALTER TABLE "locker_info_metro_taipei"
+    OWNER TO "postgres";
+
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('三和國中', '新北市', '三重區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北橋', '新北市', '三重區', '近出口', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('菜寮', '新北市', '三重區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('先嗇宮', '新北市', '三重區', '近出口3', 12, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('三重國小', '新北市', '三重區', '近出口', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('三重站', '新北市', '三重區', '出口1', 17, 20);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('景安', '新北市', '中和區', '近出口', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('永安市場', '新北市', '中和區', '近出口', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南勢角', '新北市', '中和區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('中山國小', '臺北市', '中山區', '近出口4', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('中山國中', '臺北市', '中山區', '近出口', 16, 18);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('劍南路', '臺北市', '中山區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('松江南京', '臺北市', '中山區', '近出口8', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('行天宮', '臺北市', '中山區', '近出口4', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大直', '臺北市', '中山區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('公館站', '臺北市', '中正區', '近出口2', 24, 24);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('中正紀念堂站', '臺北市', '中正區', '近出口6', 19, 20);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('小南門', '臺北市', '中正區', '近出口3/4', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('古亭', '臺北市', '中正區', '近出口4', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('西門站', '臺北市', '中正區', '出口5', 53, 54);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北車站', '臺北市', '中正區', 'M3出口往臺鐵無障礙坡道旁', 71, 80);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北車站', '臺北市', '中正區', '捷運高鐵連通處', 26, 28);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台大醫院', '臺北市', '中正區', '近出口4', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台電大樓', '臺北市', '中正區', '近出口5', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('善導寺', '臺北市', '中正區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('西門站', '臺北市', '中正區', '出口2', 106, 112);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('永春', '臺北市', '信義區', '近出口5', 0, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北101/世貿站', '臺北市', '信義區', '出口2', 3, 18);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北101/世貿站', '臺北市', '信義區', '出口4之轉接層通道', 0, 32);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('象山站', '臺北市', '信義區', '近出口2', 0, 24);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('國父紀念館站', '臺北市', '信義區', '近出口2', 4, 32);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('市政府', '臺北市', '信義區', '近出口4', 3, 34);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('內湖', '臺北市', '內湖區', '近出口1', 6, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('西湖', '臺北市', '內湖區', '近出口1', 4, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('葫洲', '臺北市', '內湖區', '近出口1', 7, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('港墘', '臺北市', '內湖區', '近出口1', 4, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('東湖', '臺北市', '內湖區', '近出口3', 6, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南港軟體園區', '臺北市', '內湖區', '近出口1', 4, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('文德', '臺北市', '內湖區', '近出口2', 5, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大湖公園', '臺北市', '內湖區', '近出口2', 6, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('石牌', '臺北市', '北投區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('新北投站', '臺北市', '北投區', '車站大廳層', 42, 44);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('北投站', '臺北市', '北投區', '車站大廳層', 11, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('復興崗', '臺北市', '北投區', '近出口1', 11, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('關渡', '臺北市', '北投區', '近出口1', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('明德', '臺北市', '北投區', '近出口', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('忠義', '臺北市', '北投區', '近出口1', 11, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('唭哩岸', '臺北市', '北投區', '近出口1', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('奇岩', '臺北市', '北投區', '近出口', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('昆陽', '臺北市', '南港區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南港', '臺北市', '南港區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南港展覽館站', '臺北市', '南港區', '出口2A', 42, 50);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('後山埤', '臺北市', '南港區', '近出口1', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('海山', '新北市', '土城區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('頂埔', '新北市', '土城區', '近出口4', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('永寧', '新北市', '土城區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('土城', '新北市', '土城區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('劍潭', '臺北市', '士林區', '近出口1', 69, 78);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('圓山', '臺北市', '士林區', '近出口2', 47, 56);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('芝山', '臺北市', '士林區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('士林站', '臺北市', '士林區', '近出口1', 37, 43);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('民權西路', '臺北市', '大同區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('北門站', '臺北市', '大同區', '機場捷運通道轉角牆面(近台北地下街連通道)', 21, 24);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('雙連', '臺北市', '大同區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('中山站', '臺北市', '大同區', '出口1', 43, 50);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大橋頭', '新北市', '大同區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('忠孝復興站', '臺北市', '大安區', '3F文湖線大廳層', 13, 28);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('六張犁', '臺北市', '大安區', '近出口', 6, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('信義安和', '臺北市', '大安區', '近出口5轉折平台', 6, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('麟光', '臺北市', '大安區', '近出口', 5, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大安森林公園站', '臺北市', '大安區', '近出口5', 12, 20);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大安', '臺北市', '大安區', '近出口1、2轉折平台', 5, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('東門站', '臺北市', '大安區', '出口5旁走道', 23, 48);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('忠孝新生', '臺北市', '大安區', '近出口4', 12, 22);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('科技大樓', '臺北市', '大安區', '近出口', 5, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('忠孝敦化站', '臺北市', '大安區', '近出口5', 13, 28);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('木柵', '臺北市', '文山區', '近出口', 10, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('動物園站', '臺北市', '文山區', '出口2', 23, 24);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('景美', '臺北市', '文山區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('萬芳社區', '臺北市', '文山區', '近出口', 10, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('萬芳醫院', '臺北市', '文山區', '近出口', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('萬隆', '臺北市', '文山區', '近出口4', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('辛亥', '臺北市', '文山區', '近出口', 12, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('小碧潭', '新北市', '新店區', '近出口1', 11, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('大坪林', '新北市', '新店區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('七張', '新北市', '新店區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('新店站', '新北市', '新店區', '車站大廳層', 11, 12);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('新店區公所', '新北市', '新店區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('頭前庄', '新北市', '新莊區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('迴龍', '新北市', '新莊區', '近出口3', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('輔大', '新北市', '新莊區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('新莊', '新北市', '新莊區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('丹鳳', '新北市', '新莊區', '近出口1', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南京復興', '臺北市', '松山區', '近出口5', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('台北小巨蛋', '臺北市', '松山區', '近出口2', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('松山機場', '臺北市', '松山區', '近詢問處', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('南京三民', '臺北市', '松山區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('松山站', '臺北市', '松山區', '近出口5', 23, 24);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('府中站', '新北市', '板橋區', '出口2', 2, 50);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('新埔站', '新北市', '板橋區', '出口4(近三猿廣場)', 2, 28);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('亞東醫院', '新北市', '板橋區', '近出口3', 1, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('板橋站', '新北市', '板橋區', '通道層近3A出口', 1, 32);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('江子翠', '新北市', '板橋區', '近出口3', 0, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('頂溪', '新北市', '永和區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('淡水站', '新北市', '淡水區', '南川堂(近出口2)', 5, 48);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('淡水站', '新北市', '淡水區', '北川堂(近出口1)', 8, 63);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('竹圍', '新北市', '淡水區', '近出口1', 1, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('紅樹林', '新北市', '淡水區', '近出口1', 1, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('龍山寺', '臺北市', '萬華區', '近出口2', 5, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('三民高中', '新北市', '蘆洲區', '近出口2', 10, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('蘆洲', '新北市', '蘆洲區', '近出口1', 9, 10);
+INSERT INTO public.locker_info_metro_taipei ("地點名稱", "縣市", "行政區", "置物櫃位置", "置物櫃空位", "置物櫃數量") VALUES ('徐匯中學', '新北市', '蘆洲區', '近出口2', 10, 10);
