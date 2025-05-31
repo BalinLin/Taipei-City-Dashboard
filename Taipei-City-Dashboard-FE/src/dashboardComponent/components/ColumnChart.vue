@@ -85,6 +85,13 @@ const chartOptions = ref({
 			dataLabels: {
 				hideOverflowingLabels: false
 			},
+			colors: {
+				ranges: [{
+					from: Number.NEGATIVE_INFINITY,
+					to: 0,
+					color: props.chart_config.color[1]
+				}]
+			},
 		},
 	},
 	stroke: {
