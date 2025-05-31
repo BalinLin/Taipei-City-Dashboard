@@ -6,12 +6,12 @@ INSERT INTO public.components(
 -- component_charts
 INSERT INTO public.component_charts(
 	index, color, types, unit)
-	VALUES ('shopping_area', '{#24B0DD,#56B96D,#F8CF58,#F5AD4A,#E170A6,#ED6A45,#AF4137,#10294A}', '{DistrictChart}', '處');
+	VALUES ('shopping_area', '{#24B0DD,#56B96D,#F8CF58,#F5AD4A,#E170A6,#ED6A45,#AF4137,#10294A}', '{DistrictChart,ColumnChart}', '處');
 
 -- query_charts 台北
 INSERT INTO public.query_charts(
 	index, history_config, map_config_ids, map_filter, time_from, time_to, update_freq, update_freq_unit, source, short_desc, long_desc, use_case, links, contributors, created_at, updated_at, query_type, query_chart, query_history, city)
-	VALUES ('shopping_area', null, {400}, null, 'static', null, null, null, '臺北市商業處', '顯示臺北各區的商圈數量', '此圖顯示臺北市各行政區的商圈數量分布，呈現各地區商業活動的集中程度與發展規模。圖表可看出不同分區的商圈密度，反映當地的經濟活絡度與生活機能強度。透過這些資料，可協助政府瞭解商業資源的地理分布，進而規劃更具針對性的區域經濟政策與都市更新方向。商圈數量的多寡不僅關乎消費便利與就業機會，也影響市政基礎建設與交通運輸的配置，有助於推動區域均衡發展、提升都市競爭力，並為民間投資與創業提供參考依據。', '可用於分析臺北市各行政區商業發展的分布情形，透過此圖顯示各區商圈的數量與集中程度。圖表呈現不同區域的商圈密度差異，並可結合都市發展政策、人口結構與交通可及性等因素，評估商業活動的熱區與潛力地帶。透過這些數據，可進一步了解商業資源是否均衡配置，有助於臺北市政府推動區域振興、招商引資及地方創生等政策方向。同時也能作為調整基礎設施建設、都市更新計畫與交通路網規劃的參考依據，促進城市經濟永續與民生便利的雙重目標邁進。', '{https://data.gov.tw/dataset/121157}', '{}', '2025-05-31 15:56:00+00', '2025-05-31 15:56:00+00', 'two_d', 'SELECT x_axis, COUNT(商圈名稱) AS data
+	VALUES ('shopping_area', null, '{400}', null, 'static', null, null, null, '臺北市商業處', '顯示臺北各區的商圈數量', '此圖顯示臺北市各行政區的商圈數量分布，呈現各地區商業活動的集中程度與發展規模。圖表可看出不同分區的商圈密度，反映當地的經濟活絡度與生活機能強度。透過這些資料，可協助政府瞭解商業資源的地理分布，進而規劃更具針對性的區域經濟政策與都市更新方向。商圈數量的多寡不僅關乎消費便利與就業機會，也影響市政基礎建設與交通運輸的配置，有助於推動區域均衡發展、提升都市競爭力，並為民間投資與創業提供參考依據。', '可用於分析臺北市各行政區商業發展的分布情形，透過此圖顯示各區商圈的數量與集中程度。圖表呈現不同區域的商圈密度差異，並可結合都市發展政策、人口結構與交通可及性等因素，評估商業活動的熱區與潛力地帶。透過這些數據，可進一步了解商業資源是否均衡配置，有助於臺北市政府推動區域振興、招商引資及地方創生等政策方向。同時也能作為調整基礎設施建設、都市更新計畫與交通路網規劃的參考依據，促進城市經濟永續與民生便利的雙重目標邁進。', '{https://data.gov.tw/dataset/121157}', '{}', '2025-05-31 15:56:00+00', '2025-05-31 15:56:00+00', 'two_d', 'SELECT x_axis, COUNT(商圈名稱) AS data
 FROM (
     SELECT DISTINCT ON (分區, 商圈名稱)
         分區 AS x_axis,
@@ -32,7 +32,7 @@ ORDER BY
 INSERT INTO public.query_charts(
 	index, history_config, map_config_ids, map_filter, time_from, time_to, update_freq, update_freq_unit, source, short_desc, long_desc, use_case, links, contributors, created_at, updated_at, query_type, query_chart, query_history, city)
 	VALUES ('shopping_area', null, '{400,401}', null, 'static', null, null, null, '臺北市商業處及新北市政府經濟發展局', '顯示雙北各區的商圈數量', '此圖顯示雙北兩市各行政區的商圈數量分布，呈現各地區商業活動的集中程度與發展規模。圖表可看出不同分區的商圈密度，反映當地的經濟活絡度與生活機能強度。透過這些資料，可協助政府瞭解商業資源的地理分布，進而規劃更具針對性的區域經濟政策與都市更新方向。商圈數量的多寡不僅關乎消費便利與就業機會，也影響市政基礎建設與交通運輸的配置，有助於推動區域均衡發展、提升都市競爭力，並為民間投資與創業提供參考依據。', '可用於分析臺北市各行政區商業發展的分布情形，透過此圖顯示各區商圈的數量與集中程度。圖表呈現不同區域的商圈密度差異，並可結合都市發展政策、人口結構與交通可及性等因素，評估商業活動的熱區與潛力地帶。透過這些數據，可進一步了解商業資源是否均衡配置，有助於臺北市政府推動區域振興、招商引資及地方創生等政策方向。同時也能作為調整基礎設施建設、都市更新計畫與交通路網規劃的參考依據，促進城市經濟永續與民生便利的雙重目標邁進。', '{https://data.ntpc.gov.tw/datasets/f54ded71-eb04-466d-bb6d-dd948c8d8502,https://data.gov.tw/dataset/121157}', '{}', '2025-05-31 15:56:00+00', '2025-05-31 15:56:00+00', 'two_d', '
-	SELECT x_axis, SUM(data) AS total_data
+	SELECT x_axis, SUM(data) AS data
 FROM (
     SELECT "分區" AS x_axis, COUNT(DISTINCT "商圈名稱") AS data
     FROM shopping_area_tpe
