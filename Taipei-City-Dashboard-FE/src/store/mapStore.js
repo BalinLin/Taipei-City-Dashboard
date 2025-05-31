@@ -195,6 +195,7 @@ export const useMapStore = defineStore("map", {
 				"bike_orange",
 				"bike_red",
 				"cctv",
+				"shopping_bag",
 			];
 			images.forEach((element) => {
 				this.map.loadImage(
@@ -354,7 +355,7 @@ export const useMapStore = defineStore("map", {
 							`https://citydashboard.taipei/geo_server/gwc/service/tms/1.0.0/taipei_vioc:${map_config.index}@EPSG:900913@pbf/{z}/{x}/{y}.pbf`,
 						],
 					});
-		
+
 					// 監聽錯誤
 					this.map.on('error', (e) => {
 						if (e.sourceId === `${map_config.layerId}-source`) {
@@ -370,7 +371,7 @@ export const useMapStore = defineStore("map", {
 							);
 						}
 					});
-		
+
 					// 監聽源加載完成
 					const sourceLoaded = new Promise((resolve, reject) => {
 						const checkSource = (e) => {
@@ -386,22 +387,22 @@ export const useMapStore = defineStore("map", {
 								}
 							}
 						};
-						
+
 						this.map.on('sourcedata', checkSource);
-						
+
 						// 設置超時
 						setTimeout(() => {
 							this.map.off('sourcedata', checkSource);
 							reject(new Error('Source load timeout'));
 						}, 10000);
 					});
-		
+
 					// 等待源加載完成後添加圖層
 					await sourceLoaded;
 					this.addMapLayer(map_config);
 
 
-		
+
 				} catch (error) {
 					console.error('Failed to add source:', error);
 					// 清理已添加的源（如果存在）
