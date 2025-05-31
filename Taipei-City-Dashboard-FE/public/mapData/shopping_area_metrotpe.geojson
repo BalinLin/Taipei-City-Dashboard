@@ -1,0 +1,896 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.515333,25.056563 ]
+    },
+    "properties": {
+    "商圈名稱":"中山北路",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.521676,25.053473 ]
+    },
+    "properties": {
+    "商圈名稱":"南西心中山",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.53448,25.053712 ]
+    },
+    "properties": {
+    "商圈名稱":"四平陽光(商圈)",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.524992,25.050218 ]
+    },
+    "properties": {
+    "商圈名稱":"大正町商圈",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.54983,25.083051 ]
+    },
+    "properties": {
+    "商圈名稱":"大直(商圈)",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.525538,25.06433 ]
+    },
+    "properties": {
+    "商圈名稱":"晴光(商圈)",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.563089,25.050436 ]
+    },
+    "properties": {
+    "商圈名稱":"條通(商圈)",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.595039,25.08389 ]
+    },
+    "properties": {
+    "商圈名稱":"民族濱江汽車",
+    "分區":"中山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.509676,25.045559 ]
+    },
+    "properties": {
+    "商圈名稱":"中華路影音(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.511259,25.045567 ]
+    },
+    "properties": {
+    "商圈名稱":"北門相機(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.520495,25.027436 ]
+    },
+    "properties": {
+    "商圈名稱":"南昌家具(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.531538,25.044691 ]
+    },
+    "properties": {
+    "商圈名稱":"大光華(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.51934,25.033638 ]
+    },
+    "properties": {
+    "商圈名稱":"愛國東路婚紗(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.511183,25.042162 ]
+    },
+    "properties": {
+    "商圈名稱":"榮町商圈",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.512749,25.042857 ]
+    },
+    "properties": {
+    "商圈名稱":"沅陵街(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.534813,25.012245 ]
+    },
+    "properties": {
+    "商圈名稱":"臺大公館(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.513327,25.042929 ]
+    },
+    "properties": {
+    "商圈名稱":"重慶南路書店(商圈)",
+    "分區":"中正區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.579615,25.045795 ]
+    },
+    "properties": {
+    "商圈名稱":"五分埔(商圈)",
+    "分區":"信義區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.561944,25.029254 ]
+    },
+    "properties": {
+    "商圈名稱":"吳興街(商圈)",
+    "分區":"信義區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.578492,25.080357 ]
+    },
+    "properties": {
+    "商圈名稱":"內湖737(商圈)",
+    "分區":"內湖區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.567004,25.083625 ]
+    },
+    "properties": {
+    "商圈名稱":"西湖(商圈)",
+    "分區":"內湖區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.505039,25.136177 ]
+    },
+    "properties": {
+    "商圈名稱":"新北投溫泉(商圈)",
+    "分區":"北投區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.516653,25.116261 ]
+    },
+    "properties": {
+    "商圈名稱":"石牌捷運(商圈)",
+    "分區":"北投區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.528054,25.137716 ]
+    },
+    "properties": {
+    "商圈名稱":"行義路溫泉美食(商圈)",
+    "分區":"北投區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.525401,25.096629 ]
+    },
+    "properties": {
+    "商圈名稱":"士林捷運商圈",
+    "分區":"士林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.524157,25.089739 ]
+    },
+    "properties": {
+    "商圈名稱":"士林觀光夜市(商圈)",
+    "分區":"士林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.52621,25.119305 ]
+    },
+    "properties": {
+    "商圈名稱":"天母(商圈)",
+    "分區":"士林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.520697,25.089525 ]
+    },
+    "properties": {
+    "商圈名稱":"承德路中古汽車(商圈)",
+    "分區":"士林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.523619,25.110265 ]
+    },
+    "properties": {
+    "商圈名稱":"蘭雅(商圈)",
+    "分區":"士林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.518953,25.070519 ]
+    },
+    "properties": {
+    "商圈名稱":"圓山(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.511613,25.054834 ]
+    },
+    "properties": {
+    "商圈名稱":"圓環太平",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.514714,25.072906 ]
+    },
+    "properties": {
+    "商圈名稱":"大龍峒(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.515356,25.056647 ]
+    },
+    "properties": {
+    "商圈名稱":"寧夏夜市(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.515255,25.050982 ]
+    },
+    "properties": {
+    "商圈名稱":"後站(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.513783,25.055284 ]
+    },
+    "properties": {
+    "商圈名稱":"朝陽服飾材料(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.510835,25.06756 ]
+    },
+    "properties": {
+    "商圈名稱":"臺北大橋頭延三(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.514225,25.050845 ]
+    },
+    "properties": {
+    "商圈名稱":"華陰街(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.519414,25.057088 ]
+    },
+    "properties": {
+    "商圈名稱":"赤峰",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.509879,25.05608 ]
+    },
+    "properties": {
+    "商圈名稱":"迪化街(商圈)",
+    "分區":"大同區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.555663,25.032239 ]
+    },
+    "properties": {
+    "商圈名稱":"文昌家具(商圈)",
+    "分區":"大安區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.545133,25.042708 ]
+    },
+    "properties": {
+    "商圈名稱":"東區商圈",
+    "分區":"大安區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.541762,25.026937 ]
+    },
+    "properties": {
+    "商圈名稱":"永康(商圈)",
+    "分區":"大安區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.529047,25.02421 ]
+    },
+    "properties": {
+    "商圈名稱":"龍泉(商圈)",
+    "分區":"大安區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.556121,24.999701 ]
+    },
+    "properties": {
+    "商圈名稱":"萬芳(商圈)",
+    "分區":"文山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.591787,24.968675 ]
+    },
+    "properties": {
+    "商圈名稱":"貓空(商圈)",
+    "分區":"文山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.563032,25.058278 ]
+    },
+    "properties": {
+    "商圈名稱":"民生社區",
+    "分區":"松山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.501245,25.023026 ]
+    },
+    "properties": {
+    "商圈名稱":"加蚋(商圈)",
+    "分區":"萬華區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.503398,25.034074 ]
+    },
+    "properties": {
+    "商圈名稱":"艋舺(商圈)",
+    "分區":"萬華區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.499056,25.038712 ]
+    },
+    "properties": {
+    "商圈名稱":"艋舺(夜市)",
+    "分區":"萬華區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.50237,25.036 ]
+    },
+    "properties": {
+    "商圈名稱":"萬華",
+    "分區":"萬華區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.50739,25.041803 ]
+    },
+    "properties": {
+    "商圈名稱":"西門町(商圈)",
+    "分區":"萬華區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.616720036425,25.002457017546 ]
+    },
+    "properties": {
+    "商圈名稱":"新北市商圈聯合發展協會",
+    "分區":"深坑區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.349048987659,24.951763015684 ]
+    },
+    "properties": {
+    "商圈名稱":"鶯歌商圈",
+    "分區":"鶯歌區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.472137571067,25.083233586086 ]
+    },
+    "properties": {
+    "商圈名稱":"蘆洲廟口商圈",
+    "分區":"蘆洲區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.660772972582,24.990673989519 ]
+    },
+    "properties": {
+    "商圈名稱":"石碇商圈",
+    "分區":"石碇區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.515753977707,25.012063013861 ]
+    },
+    "properties": {
+    "商圈名稱":"韓國街商圈",
+    "分區":"永和區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.738532977988,25.024430009082 ]
+    },
+    "properties": {
+    "商圈名稱":"平溪魅力商圈",
+    "分區":"平溪區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.442997130306,25.16956220156 ]
+    },
+    "properties": {
+    "商圈名稱":"淡水老街商圈",
+    "分區":"淡水區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.460687975148,25.007951019801 ]
+    },
+    "properties": {
+    "商圈名稱":"板橋府中商圈",
+    "分區":"板橋區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.450199029152,25.032737019953 ]
+    },
+    "properties": {
+    "商圈名稱":"新莊廟街商圈",
+    "分區":"新莊區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.369496640456,24.933019697169 ]
+    },
+    "properties": {
+    "商圈名稱":"三峽民權老街商圈",
+    "分區":"三峽區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.8445,25.1104 ]
+    },
+    "properties": {
+    "商圈名稱":"九份老街商圈",
+    "分區":"瑞芳區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.6398,25.2215 ]
+    },
+    "properties": {
+    "商圈名稱":"金山商圈",
+    "分區":"金山區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.6125,24.9932 ]
+    },
+    "properties": {
+    "商圈名稱":"深坑老街商圈",
+    "分區":"深坑區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.8682,25.0389 ]
+    },
+    "properties": {
+    "商圈名稱":"雙溪商圈",
+    "分區":"雙溪區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.6895,25.1832 ]
+    },
+    "properties": {
+    "商圈名稱":"萬里商圈",
+    "分區":"萬里區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.5515,24.8648 ]
+    },
+    "properties": {
+    "商圈名稱":"烏來商圈",
+    "分區":"烏來區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.7254,24.9375 ]
+    },
+    "properties": {
+    "商圈名稱":"坪林商圈",
+    "分區":"坪林區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4553,25.1512 ]
+    },
+    "properties": {
+    "商圈名稱":"八里左岸商圈",
+    "分區":"八里區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4876,25.0672 ]
+    },
+    "properties": {
+    "商圈名稱":"三重碧華布街商圈",
+    "分區":"三重區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.3712,24.9348 ]
+    },
+    "properties": {
+    "商圈名稱":"三峽三角湧商圈",
+    "分區":"三峽區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.3725,24.9341 ]
+    },
+    "properties": {
+    "商圈名稱":"三峽秀川商圈",
+    "分區":"三峽區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.5068,24.9935 ]
+    },
+    "properties": {
+    "商圈名稱":"中和華新街商圈",
+    "分區":"中和區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.3934,25.0773 ]
+    },
+    "properties": {
+    "商圈名稱":"林口建城商圈",
+    "分區":"林口區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.6895,25.1832 ]
+    },
+    "properties": {
+    "商圈名稱":"野柳商圈",
+    "分區":"萬里區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.7745,25.0243 ]
+    },
+    "properties": {
+    "商圈名稱":"菁桐商圈",
+    "分區":"平溪區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4815,25.0852 ]
+    },
+    "properties": {
+    "商圈名稱":"猴硐商圈",
+    "分區":"蘆洲區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4512,25.0386 ]
+    },
+    "properties": {
+    "商圈名稱":"新莊副都心商圈",
+    "分區":"新莊區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4641,25.0048 ]
+    },
+    "properties": {
+    "商圈名稱":"亞東商圈",
+    "分區":"板橋區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.8073,25.1087 ]
+    },
+    "properties": {
+    "商圈名稱":"瑞芳老街商圈",
+    "分區":"瑞芳區"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 121.4541,25.1518 ]
+    },
+    "properties": {
+    "商圈名稱":"八里渡船頭商圈",
+    "分區":"八里區"
+    }
+  }
+]
+}

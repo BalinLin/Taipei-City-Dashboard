@@ -510,4 +510,18 @@ export const maplayerCommonLayout = {
 			60,
 		],
 	},
+	"symbol-shopping_bag": {
+		"icon-image": "shopping_bag",
+		"icon-size": [
+			"interpolate",
+			["linear"],
+			["zoom"],
+			11.99,
+			0.7,
+			14,
+			1.1,
+			22,
+			1.4,
+		],
+	},
 };

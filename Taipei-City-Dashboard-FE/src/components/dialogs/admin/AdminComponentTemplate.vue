@@ -427,6 +427,9 @@ function isShowTimeToBlock(time_to) {
                   <option value="bus">
                     bus (符號圖)
                   </option>
+				  <option value="shopping_bag">
+                    shopping_bag (符號圖)
+                  </option>
                 </select>
               </div>
               <label>地圖{{ index + 1 }} Paint屬性</label>
