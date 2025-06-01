@@ -67,7 +67,7 @@ function toggleClustering() {
     </div>
     <div v-if="authStore.user?.user_id && isCurrentPageMapView" class="settingsbar-controls hide-if-mobile">
       <div class="settingsbar-clustering">
-        <span>群聚</span>
+        <span>群集模式</span>
         <label class="switch">
           <input type="checkbox" v-model="clusteringEnabled" @change="toggleClustering">
           <span class="slider round"></span>

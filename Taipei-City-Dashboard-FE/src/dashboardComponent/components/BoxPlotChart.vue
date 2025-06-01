@@ -29,6 +29,9 @@ const formattedSeries = computed(() => [
 const chartOptions = ref({
 	chart: {
 		type: "boxPlot",
+		toolbar: {
+			show: false,
+		},
 	},
 	plotOptions: {
 		boxPlot: {
