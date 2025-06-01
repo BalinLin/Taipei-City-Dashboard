@@ -13,6 +13,7 @@ import cross_bold from "../assets/map/cross_bold.png";
 import cross_normal from "../assets/map/cross_normal.png";
 import cctv from "../assets/map/cctv.png";
 import shopping_bag from "../assets/map/shopping_bag.png";
+import taxi from "../assets/map/taxi.png";
 
 const props = defineProps([
 	"chart_config",
@@ -53,6 +54,8 @@ function returnIcon(name) {
 		return cctv;
 	case "shopping_bag":
 		return shopping_bag;
+	case "taxi":
+		return taxi;
 	default:
 		return "";
 	}

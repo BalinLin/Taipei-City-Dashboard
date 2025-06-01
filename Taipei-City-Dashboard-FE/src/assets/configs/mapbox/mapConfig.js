@@ -524,4 +524,18 @@ export const maplayerCommonLayout = {
 			1.4,
 		],
 	},
+	"symbol-taxi": {
+		"icon-image": "taxi",
+		"icon-size": [
+			"interpolate",
+			["linear"],
+			["zoom"],
+			11.99,
+			0.7,
+			14,
+			1.1,
+			22,
+			1.4,
+		],
+	},
 };

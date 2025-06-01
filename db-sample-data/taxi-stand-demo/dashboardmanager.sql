@@ -16,7 +16,7 @@ INSERT INTO public.query_charts(
 ) VALUES (
 	'taxi_stand',
 	null,
-	'{}',
+	'{402}',
 	null,
 	'static',
 	null,
@@ -96,3 +96,8 @@ ORDER BY x_axis,
 	null,
 	'taipei'
 );
+
+-- component_maps 台北
+INSERT INTO public.component_maps(
+	id, index, title, type, source, size, icon, paint, property)
+	VALUES (402, 'taxi_stand', '計程車招呼站', 'symbol', 'geojson', null, 'taxi', '{}', '[{"key": "分區", "name": "行政區"}, {"key": "商圈名稱", "name": "商圈名稱"}]');
