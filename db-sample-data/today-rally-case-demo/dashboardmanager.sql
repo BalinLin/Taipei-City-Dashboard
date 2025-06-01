@@ -1,4 +1,4 @@
-INSERT INTO public.components (id, index, name) VALUES (301, 'locker_info', '置物櫃資訊');
+INSERT INTO public.components (id, index, name) VALUES (315, 'today_rally_case', '使用道路集會路段');
 
 
 INSERT INTO public.component_maps (id, index, title, type, source, size, icon, paint, property) VALUES (315, 'today_rally_case_taipei', '臺北市今日使用道路集會路段', 'fill', 'geojson', null, null, e'{

@@ -3,7 +3,7 @@
 <!-- Adding new components and settings is disabled in public dashboards and the mobile version -->
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "../../../store/authStore";
 import { useContentStore } from "../../../store/contentStore";
@@ -21,6 +21,7 @@ const authStore = useAuthStore();
 const route = useRoute();
 
 const isCurrentPageMapView = computed(() => route.name === "mapview");
+const clusteringEnabled = ref(mapStore.clusteringEnabled);
 
 function handleOpenSettings() {
 	contentStore.editDashboard = JSON.parse(
@@ -28,6 +29,11 @@ function handleOpenSettings() {
 	);
 	dialogStore.addEdit = "edit";
 	dialogStore.showDialog("addEditDashboards");
+}
+
+function toggleClustering() {
+  mapStore.toggleClustering(!mapStore.clusteringEnabled);
+  clusteringEnabled.value = mapStore.clusteringEnabled;
 }
 </script>
 
@@ -59,20 +65,28 @@ function handleOpenSettings() {
       </div>
       <AddEditDashboards />
     </div>
-    <button
-      v-if="authStore.user?.user_id && isCurrentPageMapView"
-      class="settingsbar-pin hide-if-mobile"
-      :disabled="!mapStore.tempMarkerCoordinates"
-      :style="{
-        opacity: !mapStore.tempMarkerCoordinates ? 0.5 : 1,
-        cursor: !mapStore.tempMarkerCoordinates
-          ? 'not-allowed'
-          : 'pointer',
-      }"
-      @click="dialogStore.showDialog('addPin')"
-    >
-      {{ mapStore.tempMarkerCoordinates ? "新增地標" : "雙擊以建立地標" }}
-    </button>
+    <div v-if="authStore.user?.user_id && isCurrentPageMapView" class="settingsbar-controls hide-if-mobile">
+      <div class="settingsbar-clustering">
+        <span>群聚</span>
+        <label class="switch">
+          <input type="checkbox" v-model="clusteringEnabled" @change="toggleClustering">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <button
+        class="settingsbar-pin"
+        :disabled="!mapStore.tempMarkerCoordinates"
+        :style="{
+          opacity: !mapStore.tempMarkerCoordinates ? 0.5 : 1,
+          cursor: !mapStore.tempMarkerCoordinates
+            ? 'not-allowed'
+            : 'pointer',
+        }"
+        @click="dialogStore.showDialog('addPin')"
+      >
+        {{ mapStore.tempMarkerCoordinates ? "新增地標" : "雙擊以建立地標" }}
+      </button>
+    </div>
   </div>
   <AddViewPoint name="addPin" />
 </template>
@@ -152,6 +166,22 @@ function handleOpenSettings() {
 		}
 	}
 
+	&-controls {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+	}
+
+	&-clustering {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		span {
+			font-size: 0.9rem;
+		}
+	}
+
 	&-pin {
 		display: flex;
 		align-items: center;
@@ -159,6 +189,62 @@ function handleOpenSettings() {
 		padding: 2px 4px;
 		border-radius: 4px;
 		background-color: var(--color-highlight);
+	}
+
+	/* Toggle Switch Styles */
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 36px;
+		height: 20px;
+	}
+
+	.switch input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		transition: .3s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 16px;
+		width: 16px;
+		left: 2px;
+		bottom: 2px;
+		background-color: white;
+		transition: .3s;
+	}
+
+	input:checked + .slider {
+		background-color: var(--color-highlight);
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px var(--color-highlight);
+	}
+
+	input:checked + .slider:before {
+		transform: translateX(16px);
+	}
+
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
 	}
 }
 </style>
