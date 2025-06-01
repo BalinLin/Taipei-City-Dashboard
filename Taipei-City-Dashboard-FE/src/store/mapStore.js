@@ -43,6 +43,111 @@ import { voronoi } from "../assets/utilityFunctions/voronoi.js";
 import { calculateHaversineDistance } from "../assets/utilityFunctions/calculateHaversineDistance";
 import { AnimatedArcLayer } from "../assets/configs/mapbox/arcAnimate.js";
 
+// Helper function to calculate brightness of a hex color
+function getBrightness(hexColor) {
+	// Convert hex to RGB
+	const r = parseInt(hexColor.slice(1, 3), 16);
+	const g = parseInt(hexColor.slice(3, 5), 16);
+	const b = parseInt(hexColor.slice(5, 7), 16);
+	// Calculate perceived brightness
+	return (r * 299 + g * 587 + b * 114) / 1000;
+}
+
+// Helper function to generate cluster color stops based on available colors
+function generateClusterColorStops(mapConfig) {
+	// Extract color values from map_config if it's provided as an object
+	let colorValues = [];
+
+	if (typeof mapConfig === 'object' && mapConfig !== null) {
+		// If mapConfig is the actual config object
+		if (mapConfig.paint && mapConfig.paint['circle-color'] && Array.isArray(mapConfig.paint['circle-color'])) {
+			colorValues = mapConfig.paint['circle-color'].filter(item =>
+				typeof item === 'string' && item.startsWith('#')
+			);
+		}
+	} else if (Array.isArray(mapConfig)) {
+		// If mapConfig is already an array of color values
+		colorValues = mapConfig.filter(item =>
+			typeof item === 'string' && item.startsWith('#')
+		);
+	}
+
+	if (!colorValues || colorValues.length === 0) {
+		// Default fallback colors
+		return [
+			'step',
+			['get', 'point_count'],
+			'#9c2a4b',
+			100,
+			'#c18548',
+			750,
+			'#e6df44'
+		];
+	}
+
+	if (colorValues.length === 1) {
+		// If only one color, use it for all steps
+		return [
+			'step',
+			['get', 'point_count'],
+			colorValues[0],
+			100,
+			colorValues[0],
+			750,
+			colorValues[0]
+		];
+	}
+	let darkestColor = colorValues[0];
+	let brightestColor = colorValues[0];
+	let darkestBrightness = getBrightness(darkestColor);
+	let brightestBrightness = getBrightness(brightestColor);
+
+	colorValues.forEach(color => {
+		const brightness = getBrightness(color);
+		if (brightness < darkestBrightness) {
+			darkestColor = color;
+			darkestBrightness = brightness;
+		}
+		if (brightness > brightestBrightness) {
+			brightestColor = color;
+			brightestBrightness = brightness;
+		}
+	});
+
+	// Calculate middle color by averaging the RGB values of darkest and brightest colors
+	const darkestRGB = {
+		r: parseInt(darkestColor.slice(1, 3), 16),
+		g: parseInt(darkestColor.slice(3, 5), 16),
+		b: parseInt(darkestColor.slice(5, 7), 16)
+	};
+
+	const brightestRGB = {
+		r: parseInt(brightestColor.slice(1, 3), 16),
+		g: parseInt(brightestColor.slice(3, 5), 16),
+		b: parseInt(brightestColor.slice(5, 7), 16)
+	};
+
+	// Average the RGB values
+	const middleRGB = {
+		r: Math.round((darkestRGB.r + brightestRGB.r) / 2),
+		g: Math.round((darkestRGB.g + brightestRGB.g) / 2),
+		b: Math.round((darkestRGB.b + brightestRGB.b) / 2)
+	};
+
+	// Convert RGB back to hex
+	const middleColor = `#${middleRGB.r.toString(16).padStart(2, '0')}${middleRGB.g.toString(16).padStart(2, '0')}${middleRGB.b.toString(16).padStart(2, '0')}`;
+
+	return [
+		'step',
+		['get', 'point_count'],
+		darkestColor,     // Darkest color for small clusters
+		100,
+		middleColor,      // Middle color (average of darkest and brightest) for medium clusters
+		750,
+		brightestColor    // Brightest color for large clusters
+	];
+}
+
 export const useMapStore = defineStore("map", {
 	state: () => ({
 		// Array of layer IDs that are in the map
@@ -69,6 +174,8 @@ export const useMapStore = defineStore("map", {
 		tempMarkerCoordinates: null,
 		// Store the user's current location,
 		userLocation: { latitude: null, longitude: null },
+		// Controls whether clustering is enabled
+		clusteringEnabled: false,
 	}),
 	actions: {
 		/* Initialize Mapbox */
@@ -311,11 +418,21 @@ export const useMapStore = defineStore("map", {
 		// 3-1. Add a local geojson as a source in mapbox
 		addGeojsonSource(map_config, data) {
 			if (!["voronoi", "isoline"].includes(map_config.type)) {
-				this.map.addSource(`${map_config.layerId}-source`, {
+				const sourceConfig = {
 					type: "geojson",
-					data: { ...data },
-				});
+					data: { ...data }
+				};
+
+				// Only add clustering properties if clustering is enabled
+				if (this.clusteringEnabled) {
+					sourceConfig.cluster = true;
+					sourceConfig.clusterMaxZoom = 14;
+					sourceConfig.clusterRadius = 50;
+				}
+
+				this.map.addSource(`${map_config.layerId}-source`, sourceConfig);
 			}
+
 			if (map_config.type === "arc") {
 				this.AddArcMapLayer(map_config, data);
 			} else if (map_config.type === "voronoi") {
@@ -448,6 +565,7 @@ export const useMapStore = defineStore("map", {
 				};
 			}
 			this.loadingLayers.push("rendering");
+
 			this.map.addLayer({
 				id: map_config.layerId,
 				type: map_config.type,
@@ -464,6 +582,66 @@ export const useMapStore = defineStore("map", {
 				},
 				source: `${map_config.layerId}-source`,
 			});
+
+			if (this.clusteringEnabled) {
+				this.map.addLayer({
+					id: `${map_config.layerId}-clusters`,
+					type: 'circle',
+					source: `${map_config.layerId}-source`,
+					filter: ['has', 'point_count'],
+					paint: {
+						'circle-color': generateClusterColorStops(map_config),
+						'circle-radius': [
+							'step',
+							['get', 'point_count'],
+							20,
+							100,
+							30,
+							750,
+							40
+						]
+					}
+				});
+
+				this.map.addLayer({
+					id: `${map_config.layerId}-cluster-count`,
+					type: 'symbol',
+					source: `${map_config.layerId}-source`,
+					filter: ['has', 'point_count'],
+					layout: {
+						'text-field': ['get', 'point_count_abbreviated'],
+						'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'],
+						'text-size': 18
+					}
+				});
+
+				// inspect a cluster on click
+				this.map.on('click', `${map_config.layerId}-clusters`, (e) => {
+					const features = this.map.queryRenderedFeatures(e.point, {
+						layers: [`${map_config.layerId}-clusters`]
+					});
+					const clusterId = features[0].properties.cluster_id;
+					this.map.getSource(`${map_config.layerId}-source`).getClusterExpansionZoom(
+						clusterId,
+						(err, zoom) => {
+							if (err) return;
+
+							this.map.easeTo({
+								center: features[0].geometry.coordinates,
+								zoom: zoom
+							});
+						}
+					);
+				});
+
+				this.map.on('mouseenter', `${map_config.layerId}-clusters`, () => {
+					this.map.getCanvas().style.cursor = 'pointer';
+				});
+				this.map.on('mouseleave', `${map_config.layerId}-clusters`, () => {
+					this.map.getCanvas().style.cursor = '';
+				});
+			}
+
 			this.currentLayers.push(map_config.layerId);
 			this.mapConfigs[map_config.layerId] = map_config;
 			this.currentVisibleLayers.push(map_config.layerId);
@@ -766,7 +944,29 @@ export const useMapStore = defineStore("map", {
 				this.currentVisibleLayers.push(mapLayerId);
 				this.renderDeckGLLayer();
 			} else {
-				this.map.setLayoutProperty(mapLayerId, "visibility", "visible");
+				this.map.setLayoutProperty(
+					mapLayerId,
+					"visibility",
+					"visible"
+				);
+
+				// Show the cluster layers if they exist
+				if (this.map.getLayer(`${mapLayerId}-clusters`)) {
+					this.map.setLayoutProperty(
+						`${mapLayerId}-clusters`,
+						"visibility",
+						"visible"
+					);
+				}
+
+				// Show the cluster count if it exists
+				if (this.map.getLayer(`${mapLayerId}-cluster-count`)) {
+					this.map.setLayoutProperty(
+						`${mapLayerId}-cluster-count`,
+						"visibility",
+						"visible"
+					);
+				}
 			}
 		},
 		// 6. Turn off the visibility of an exisiting map layer but don't remove it completely
@@ -786,6 +986,24 @@ export const useMapStore = defineStore("map", {
 						"visibility",
 						"none"
 					);
+
+					// Hide the cluster layers if they exist
+					if (this.map.getLayer(`${mapLayerId}-clusters`)) {
+						this.map.setLayoutProperty(
+							`${mapLayerId}-clusters`,
+							"visibility",
+							"none"
+						);
+					}
+
+					// Hide the cluster count if it exists
+					if (this.map.getLayer(`${mapLayerId}-cluster-count`)) {
+						this.map.setLayoutProperty(
+							`${mapLayerId}-cluster-count`,
+							"visibility",
+							"none"
+						);
+					}
 				}
 				this.currentVisibleLayers = this.currentVisibleLayers.filter(
 					(element) => element !== mapLayerId
@@ -1321,6 +1539,238 @@ export const useMapStore = defineStore("map", {
 			this.currentVisibleLayers = [];
 			this.removePopup();
 			this.tempMarkerCoordinates = null;
+		},
+
+		// Toggle clustering for all existing layers
+		toggleClustering(enabled) {
+			this.clusteringEnabled = enabled;
+
+			// If no map is initialized yet, just update the state
+			if (!this.map) return;
+
+			// Track layers that need processing to avoid event listener duplication
+			const processedLayers = new Set();
+
+			// Update all existing sources and layers to reflect new clustering state
+			this.currentLayers.forEach(layerId => {
+				const sourceId = `${layerId}-source`;
+
+				// Skip non-point layers that definitely can't be clustered
+				if (!this.map.getSource(sourceId) ||
+					!["circle", "symbol"].includes(layerId.split("-")[1]) ||
+					["voronoi", "isoline", "arc"].includes(layerId.split("-")[1])) {
+					return;
+				}
+
+				// Skip if already processed
+				if (processedLayers.has(layerId)) {
+					return;
+				}
+				processedLayers.add(layerId);
+
+				// Get the current source data
+				const sourceData = this.map.getSource(sourceId)?._data;
+				if (!sourceData) return;
+
+				// Remember the main layer visibility
+				const isVisible = this.currentVisibleLayers.includes(layerId);
+
+				// Remove event listeners for clusters if they exist to prevent duplicates
+				if (this.map.getLayer(`${layerId}-clusters`)) {
+					this.map.off('click', `${layerId}-clusters`);
+					this.map.off('mouseenter', `${layerId}-clusters`);
+					this.map.off('mouseleave', `${layerId}-clusters`);
+				}
+
+				// Remove existing cluster layers if they exist
+				if (this.map.getLayer(`${layerId}-clusters`)) {
+					this.map.removeLayer(`${layerId}-clusters`);
+				}
+
+				if (this.map.getLayer(`${layerId}-cluster-count`)) {
+					this.map.removeLayer(`${layerId}-cluster-count`);
+				}
+
+				// Remove main layer
+				if (this.map.getLayer(layerId)) {
+					this.map.removeLayer(layerId);
+				}
+
+				// Remove and recreate the source with the new clustering settings
+				if (this.map.getSource(sourceId)) {
+					this.map.removeSource(sourceId);
+				}
+
+				try {
+					const sourceConfig = {
+						type: "geojson",
+						data: { ...sourceData }
+					};
+
+					// Only add clustering properties if clustering is enabled
+					if (this.clusteringEnabled) {
+						sourceConfig.cluster = true;
+						sourceConfig.clusterMaxZoom = 14;
+						sourceConfig.clusterRadius = 50;
+					}
+
+					// Add source with updated clustering settings
+					this.map.addSource(sourceId, sourceConfig);
+
+					// Re-add the main layer
+					const mapConfig = this.mapConfigs[layerId];
+					if (mapConfig) {
+						let extra_paint_configs = {};
+						let extra_layout_configs = {};
+						if (mapConfig.icon) {
+							extra_paint_configs = {
+								...maplayerCommonPaint[`${mapConfig.type}-${mapConfig.icon}`],
+							};
+							extra_layout_configs = {
+								...maplayerCommonLayout[`${mapConfig.type}-${mapConfig.icon}`],
+							};
+						}
+						if (mapConfig.size) {
+							extra_paint_configs = {
+								...extra_paint_configs,
+								...maplayerCommonPaint[`${mapConfig.type}-${mapConfig.size}`],
+							};
+							extra_layout_configs = {
+								...extra_layout_configs,
+								...maplayerCommonLayout[`${mapConfig.type}-${mapConfig.size}`],
+							};
+						}
+
+						// Re-add the main layer
+						this.map.addLayer({
+							id: layerId,
+							type: mapConfig.type,
+							"source-layer": mapConfig.source === "raster" ? mapConfig.index : "",
+							paint: {
+								...maplayerCommonPaint[`${mapConfig.type}`],
+								...extra_paint_configs,
+								...mapConfig.paint,
+							},
+							layout: {
+								...maplayerCommonLayout[`${mapConfig.type}`],
+								...extra_layout_configs,
+								visibility: isVisible ? "visible" : "none"
+							},
+							source: sourceId,
+						});
+
+						// Make sure the layer is in the current layers array
+						if (!this.currentLayers.includes(layerId)) {
+							this.currentLayers.push(layerId);
+						}
+
+						// Add to visible layers if it should be visible
+						if (isVisible && !this.currentVisibleLayers.includes(layerId)) {
+							this.currentVisibleLayers.push(layerId);
+						}
+
+						// Add cluster layers if clustering is enabled
+						if (enabled) {
+							// Add cluster circle layer
+							this.map.addLayer({
+								id: `${layerId}-clusters`,
+								type: 'circle',
+								source: sourceId,
+								filter: ['has', 'point_count'],
+								paint: {
+									'circle-color': generateClusterColorStops(mapConfig),
+									'circle-radius': [
+										'step',
+										['get', 'point_count'],
+										20,
+										100,
+										30,
+										750,
+										40
+									]
+								},
+								layout: {
+									visibility: isVisible ? "visible" : "none"
+								}
+							});
+
+							// Add cluster count labels
+							this.map.addLayer({
+								id: `${layerId}-cluster-count`,
+								type: 'symbol',
+								source: sourceId,
+								filter: ['has', 'point_count'],
+								layout: {
+									'text-field': ['get', 'point_count_abbreviated'],
+									'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'],
+									'text-size': 18,
+									visibility: isVisible ? "visible" : "none"
+								}
+							});
+
+							// Inspect a cluster on click
+							this.map.on('click', `${layerId}-clusters`, (e) => {
+								const features = this.map.queryRenderedFeatures(e.point, {
+									layers: [`${layerId}-clusters`]
+								});
+								if (features.length === 0) return;
+
+								const clusterId = features[0].properties.cluster_id;
+								this.map.getSource(sourceId).getClusterExpansionZoom(
+									clusterId,
+									(err, zoom) => {
+										if (err) return;
+
+										this.map.easeTo({
+											center: features[0].geometry.coordinates,
+											zoom: zoom
+										});
+									}
+								);
+							});
+
+							this.map.on('mouseenter', `${layerId}-clusters`, () => {
+								this.map.getCanvas().style.cursor = 'pointer';
+							});
+
+							this.map.on('mouseleave', `${layerId}-clusters`, () => {
+								this.map.getCanvas().style.cursor = '';
+							});
+						}
+					}
+				} catch (error) {
+					console.error(`Error toggling clustering for ${layerId}:`, error);
+
+					// If there's an error, make sure we don't leave the layer in a broken state
+					// Try to restore it to a working state
+					try {
+						if (!this.map.getSource(sourceId)) {
+							this.map.addSource(sourceId, {
+								type: "geojson",
+								data: sourceData
+							});
+						}
+
+						if (!this.map.getLayer(layerId)) {
+							const mapConfig = this.mapConfigs[layerId];
+							if (mapConfig) {
+								this.map.addLayer({
+									id: layerId,
+									type: mapConfig.type,
+									"source-layer": mapConfig.source === "raster" ? mapConfig.index : "",
+									paint: mapConfig.paint || {},
+									layout: {
+										visibility: isVisible ? "visible" : "none"
+									},
+									source: sourceId,
+								});
+							}
+						}
+					} catch (e) {
+						console.error("Failed to restore layer after error:", e);
+					}
+				}
+			});
 		},
 	},
 });
